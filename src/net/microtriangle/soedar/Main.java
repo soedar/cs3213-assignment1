@@ -11,21 +11,17 @@ public class Main {
     public static void main(String[] args) {
         final EventManager eventManager = new MemoryEventManager();
 
-        eventManager.subscribe("helloevent", new EventCallback() {
+        eventManager.subscribe(KwicEvent.OUTPUT, new EventCallback() {
             @Override
             public void callback(Map<String, Object> object) {
-                System.out.println("Called");
+                System.out.println("Called: " + object.get(KwicEvent.OUTPUT_DICT_VALUE));
             }
         });
 
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
         while (line != null) {
-            System.out.println(line);
-            if ("hello".equals(line)) {
-                System.out.println("here");
-                eventManager.publish("helloevent");
-            }
+            eventManager.publish(KwicEvent.OUTPUT, KwicEvent.OUTPUT_DICT_VALUE, line);
             line = scanner.nextLine();
         }
 
