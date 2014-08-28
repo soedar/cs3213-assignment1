@@ -3,8 +3,9 @@ package net.microtriangle.soedar;
 import net.microtriangle.soedar.eventmanager.EventCallback;
 import net.microtriangle.soedar.eventmanager.EventManager;
 import net.microtriangle.soedar.eventmanager.MemoryEventManager;
+import net.microtriangle.soedar.filters.CircularShift;
+import net.microtriangle.soedar.filters.Filter;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -18,7 +19,9 @@ public class Main {
             }
         });
 
-        CircularShift circularShift = new CircularShift(eventManager, KwicEvent.CIRCULAR_SHIFT, KwicEvent.OUTPUT);
+        Filter filter = new Filter(eventManager, new CircularShift());
+        filter.addInputEvent(KwicEvent.CIRCULAR_SHIFT);
+        filter.addOutputEvent(KwicEvent.OUTPUT);
 
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
