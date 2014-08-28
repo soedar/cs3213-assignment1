@@ -6,5 +6,5 @@ import java.util.Map;
  * Created by soedar on 27/8/14.
  */
 public interface EventCallback {
-    void callback(Map<String, Object>object);
+    void callback(Object object);
 }

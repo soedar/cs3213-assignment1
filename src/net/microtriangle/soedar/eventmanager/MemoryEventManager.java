@@ -28,22 +28,10 @@ public class MemoryEventManager implements EventManager {
     }
 
     @Override
-    public void publish(String eventName, String key, Object object) {
-        HashMap objects = new HashMap<String, Object>();
-        objects.put(key, object);
-
-        publish(eventName, objects);
-    }
-
-    @Override
-    public synchronized void publish(String eventName, Map<String, Object> objects) {
+    public synchronized void publish(String eventName, Object object) {
         ArrayList<EventCallback> subs = subscribers.get(eventName);
         for (EventCallback callback : subs) {
-            if (objects != null) {
-                callback.callback(new HashMap<String, Object>(objects));
-            } else {
-                callback.callback(null);
-            }
+            callback.callback(object);
         }
     }
 }

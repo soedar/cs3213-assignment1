@@ -5,5 +5,5 @@ package net.microtriangle.soedar;
  */
 public class KwicEvent {
     public static final String OUTPUT = "outputEvent";
-    public static final String OUTPUT_DICT_VALUE = "value";
+    public static final String CIRCULAR_SHIFT = "circularShiftEvent";
 }

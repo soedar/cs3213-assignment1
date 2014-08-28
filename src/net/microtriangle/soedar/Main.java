@@ -4,7 +4,7 @@ import net.microtriangle.soedar.eventmanager.EventCallback;
 import net.microtriangle.soedar.eventmanager.EventManager;
 import net.microtriangle.soedar.eventmanager.MemoryEventManager;
 
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -13,15 +13,17 @@ public class Main {
 
         eventManager.subscribe(KwicEvent.OUTPUT, new EventCallback() {
             @Override
-            public void callback(Map<String, Object> object) {
-                System.out.println("Called: " + object.get(KwicEvent.OUTPUT_DICT_VALUE));
+            public void callback(Object object) {
+                System.out.println("Called: " + object);
             }
         });
+
+        CircularShift circularShift = new CircularShift(eventManager, KwicEvent.CIRCULAR_SHIFT, KwicEvent.OUTPUT);
 
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
         while (line != null) {
-            eventManager.publish(KwicEvent.OUTPUT, KwicEvent.OUTPUT_DICT_VALUE, line);
+            eventManager.publish(KwicEvent.CIRCULAR_SHIFT, line);
             line = scanner.nextLine();
         }
 
