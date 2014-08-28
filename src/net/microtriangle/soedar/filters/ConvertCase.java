@@ -19,9 +19,9 @@ public class ConvertCase implements FilterModule {
     @Override
     public Object trigger(Object input) {
         if (input instanceof String) {
-            return convertCaseTitle((String)input);
+            return convertCaseTitle((String) input);
         } else if (input instanceof Collection) {
-            return convertCaseTitles((Collection)input);
+            return convertCaseTitles((Collection) input);
         }
         throw new IllegalArgumentException();
     }

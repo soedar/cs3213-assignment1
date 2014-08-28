@@ -5,6 +5,7 @@ import net.microtriangle.soedar.eventmanager.EventManager;
 import net.microtriangle.soedar.eventmanager.MemoryEventManager;
 import net.microtriangle.soedar.filters.CircularShift;
 import net.microtriangle.soedar.filters.ConvertCase;
+import net.microtriangle.soedar.filters.DropTitles;
 import net.microtriangle.soedar.filters.Filter;
 
 import java.util.ArrayList;
@@ -28,10 +29,13 @@ public class Main {
 
         Filter circularShiftFilter = new Filter(eventManager, new CircularShift());
         Filter convertCaseFilter = new Filter(eventManager, new ConvertCase(ignoredWords));
+        Filter dropTitleFilter = new Filter(eventManager, new DropTitles(ignoredWords));
 
         circularShiftFilter.addInputEvent(KwicEvent.CIRCULAR_SHIFT);
-        circularShiftFilter.addOutputEvent(KwicEvent.CONVERT_CASE);
-        circularShiftFilter.addOutputEvent(KwicEvent.OUTPUT);
+        circularShiftFilter.addOutputEvent(KwicEvent.DROP_TITLES);
+
+        dropTitleFilter.addInputEvent(KwicEvent.DROP_TITLES);
+        dropTitleFilter.addOutputEvent(KwicEvent.CONVERT_CASE);
 
         convertCaseFilter.addInputEvent(KwicEvent.CONVERT_CASE);
         convertCaseFilter.addOutputEvent(KwicEvent.OUTPUT);
