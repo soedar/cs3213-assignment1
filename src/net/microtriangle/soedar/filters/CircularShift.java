@@ -7,45 +7,42 @@ import java.util.*;
  */
 public class CircularShift implements FilterModule {
 
+    @Override
     public Object trigger(Object input) {
-        List<String> titles;
-         if (input instanceof String) {
-            titles = new ArrayList<String>();
-            titles.add((String)input);
-         } else if (input instanceof List) {
-            titles = (List) input;
-         } else {
-            throw new IllegalArgumentException();
-         }
+        if (input instanceof String) {
+            return circularShiftTitle((String) input);
+        } else if (input instanceof Collection) {
+            return circularShiftTitles((Collection) input);
+        }
 
-        return circularShift(titles);
+        throw new IllegalArgumentException();
     }
 
-    private List<String> circularShift(List<String> titles) {
-        Set<String> output = new HashSet<String>();
+    private Collection<String> circularShiftTitles(Collection<String> titles) {
+        HashSet<String> output = new HashSet<String>();
 
         for (String title : titles) {
-            output.addAll(titleCircularShift(title));
+            output.addAll(circularShiftTitle(title));
         }
 
         return new ArrayList<String>(output);
     }
 
-    private List<String> titleCircularShift(String title) {
-        List<String> output = new ArrayList<String>();
-        List<String> words = new LinkedList<String>(Arrays.asList(title.split(" ")));
+    private Collection<String> circularShiftTitle(String title) {
+        ArrayList<String> output = new ArrayList<String>();
+        LinkedList<String> words = new LinkedList<String>(Arrays.asList(title.split(" ")));
 
         for (int i=0;i<words.size();i++) {
             StringBuilder sb = new StringBuilder();
 
-            String first = words.remove(0);
             for (String word : words) {
+                if (sb.length() > 0) {
+                    sb.append(" ");
+                }
                 sb.append(word);
-                sb.append(" ");
             }
-            sb.append(first);
-            words.add(first);
 
+            words.add(words.removeFirst());
             output.add(sb.toString());
         }
 
