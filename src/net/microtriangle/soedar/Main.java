@@ -3,10 +3,7 @@ package net.microtriangle.soedar;
 import net.microtriangle.soedar.eventmanager.EventCallback;
 import net.microtriangle.soedar.eventmanager.EventManager;
 import net.microtriangle.soedar.eventmanager.MemoryEventManager;
-import net.microtriangle.soedar.filters.CircularShift;
-import net.microtriangle.soedar.filters.ConvertCase;
-import net.microtriangle.soedar.filters.DropTitles;
-import net.microtriangle.soedar.filters.Filter;
+import net.microtriangle.soedar.filters.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +27,7 @@ public class Main {
         Filter circularShiftFilter = new Filter(eventManager, new CircularShift());
         Filter convertCaseFilter = new Filter(eventManager, new ConvertCase(ignoredWords));
         Filter dropTitleFilter = new Filter(eventManager, new DropTitles(ignoredWords));
+        Filter sorterFilter = new Filter(eventManager, new Sorter());
 
         circularShiftFilter.addInputEvent(KwicEvent.CIRCULAR_SHIFT);
         circularShiftFilter.addOutputEvent(KwicEvent.DROP_TITLES);
@@ -38,8 +36,11 @@ public class Main {
         dropTitleFilter.addOutputEvent(KwicEvent.CONVERT_CASE);
 
         convertCaseFilter.addInputEvent(KwicEvent.CONVERT_CASE);
+        convertCaseFilter.addOutputEvent(KwicEvent.SORTER);
         convertCaseFilter.addOutputEvent(KwicEvent.OUTPUT);
 
+        sorterFilter.addInputEvent(KwicEvent.SORTER);
+        sorterFilter.addOutputEvent(KwicEvent.OUTPUT);
 
         Scanner scanner = new Scanner(System.in);
         String line = scanner.nextLine();
