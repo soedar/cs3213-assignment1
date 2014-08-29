@@ -38,7 +38,7 @@ public class ConvertCase implements FilterModule {
             word = word.toLowerCase();
             if (ignoredWords.contains(word)) {
                 sb.append(word);
-            } else {
+            } else if (word.length() > 0) {
                 sb.append(Character.toUpperCase(word.charAt(0)));
                 sb.append(word.substring(1));
             }

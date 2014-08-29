@@ -7,6 +7,5 @@ import java.util.Map;
  */
 public interface EventManager {
     void subscribe(String eventName, EventCallback callback);
-    void publish(String eventName);
     void publish(String eventName, Object object);
 }
