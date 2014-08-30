@@ -5,32 +5,39 @@ import net.microtriangle.soedar.eventmanager.EventManager;
 import net.microtriangle.soedar.eventmanager.ThreadedEventManager;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+        Set<String> titles = null;
+        Set<String> ignoredWords = null;
+
         if (args.length > 0) {
             if ("-h".equals(args[0]) || "--help".equals(args[0])) {
                 showHelpMessage();
                 return;
             }
-            else {
-                System.err.println("Ignoring unknown arguments");
+
+            try {
+                titles = readFileDataFromArgs("-f", args);
+            } catch (IOException e) {
+                System.err.println("Invalid filename, reading from STDIN");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.err.println("No filename specified");
+            }
+
+            try {
+                ignoredWords = readFileDataFromArgs("-i", args);
+            } catch (IOException e) {
+                System.err.println("Invalid ignore words file, no ignored words");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.err.println("No ignore words file specified");
             }
         }
 
-        Set<String> ignoredWords;
-        try {
-            ignoredWords = getIgnoredWords("ignore.txt");
-        } catch (IOException e) {
-            ignoredWords = new HashSet<String>();
-        }
-
         final EventManager eventManager = new ThreadedEventManager();
-
         KwicFilters filters = new KwicFilters(eventManager, ignoredWords);
         filters.setup();
 
@@ -44,27 +51,39 @@ public class Main {
             }
         });
 
-        eventManager.publish(KwicEvent.INPUT, getTitles());
+        if (titles == null) {
+            titles = getTitlesFromStdin();
+        }
+
+        eventManager.publish(KwicEvent.INPUT, titles);
+    }
+
+    public static Set<String> readFileDataFromArgs(String flag, String[] args) throws IOException, ArrayIndexOutOfBoundsException {
+        String filename = null;
+        for (int i=0;i<args.length;i++) {
+            if (args[i].equals(flag)) {
+                filename = args[i+1];
+                break;
+            }
+        }
+
+        if (filename != null) {
+            return readFile(filename);
+        }
+        return null;
     }
 
     public static void showHelpMessage() {
         System.out.println("CS3213 Assignment 1 - KwicKwacKwoc");
         System.out.println("Soedarsono A0078541B");
-        System.out.println("Usage: java -jar assignment1.jar");
-        System.out.println("This program will keep reading from STDIN until EOF or empty line");
-        System.out.println("");
-        System.out.println("To ignore keywords, create a ignore.txt file in the same directory with a newline separated keywords to ignore");
+        System.out.println("usage: java -jar assignment1.jar [-f filename] [-i ignored-word-file]");
+        System.out.println("If -f is not specified, this program will read from STDIN until EOF or empty line");
     }
 
-    public static Set<String> getIgnoredWords(String file) throws IOException {
-        HashSet<String> ignoredWords = new HashSet<String>();
+    public static Set<String> readFile(String file) throws IOException {
+        HashSet<String> lines = new HashSet<String>();
 
-        FileReader fileReader;
-        try {
-            fileReader = new FileReader(file);
-        } catch (FileNotFoundException e) {
-            return ignoredWords;
-        }
+        FileReader fileReader = new FileReader(file);
 
         BufferedReader bufferedReader = null;
         try {
@@ -72,17 +91,17 @@ public class Main {
             String word = bufferedReader.readLine();
 
             while (word != null) {
-                ignoredWords.add(word);
+                lines.add(word);
                 word = bufferedReader.readLine();
             }
         } finally {
             bufferedReader.close();
-            return ignoredWords;
+            return lines;
         }
     }
 
-    public static List<String> getTitles() {
-        ArrayList<String> titles = new ArrayList<String>();
+    public static Set<String> getTitlesFromStdin() {
+        HashSet<String> titles = new HashSet<String>();
 
         Scanner scanner = new Scanner(System.in);
         String title;

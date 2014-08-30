@@ -5,6 +5,7 @@ import net.microtriangle.soedar.eventmanager.EventManager;
 import net.microtriangle.soedar.filters.*;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Created by soedar on 30/8/14.
@@ -15,7 +16,11 @@ public class KwicFilters {
 
     public KwicFilters(EventManager eventManager, Collection<String> ignoredWords) {
         this.eventManager = eventManager;
-        this.ignoredWords = ignoredWords;
+        if (ignoredWords == null) {
+            this.ignoredWords = new HashSet<String>();
+        } else {
+            this.ignoredWords = ignoredWords;
+        }
     }
 
     public void setup() {
