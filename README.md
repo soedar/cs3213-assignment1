@@ -8,7 +8,7 @@ CS3213 Assignment 1: Kwic-Kwac-Kwoc
 2. __Ignored words__  
 `cat ignore.txt`  
 
-3. Usage
+3. __Usage__  
 `java -jar assignment1.jar -h`
 
 4. __Run__  
@@ -19,9 +19,12 @@ CS3213 Assignment 1: Kwic-Kwac-Kwoc
 ## File mode vs STDIN
 Not specifying the -f switch makes the program read from the STDIN. The
 program will keep reading from STDIN, with each line representing a title,
-until either EOF or when there is a blink line input.
+until either EOF or when there is a blank line input.
 
 ## Ignore words file
 Using the -i switch makes the program read from the ignore words file, which
 should be a list of keywords to be ignored sepearted by a newline. See sample
 ignore.txt for the expected format.
+
+## Compiled JAR
+I've included the final jar file in the `bin/` folder
