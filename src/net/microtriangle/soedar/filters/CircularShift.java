@@ -12,7 +12,7 @@ public class CircularShift implements FilterModule {
         if (input instanceof String) {
             return circularShiftTitle((String) input);
         } else if (input instanceof Collection) {
-            return circularShiftTitles((Collection) input);
+            return circularShiftTitles((Collection<String>) input);
         }
 
         throw new IllegalArgumentException();

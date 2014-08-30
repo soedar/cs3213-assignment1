@@ -15,9 +15,9 @@ public class Sorter implements FilterModule {
         throw new IllegalArgumentException();
     }
 
-    private Collection sort(Collection input) {
+    private Collection sort(Collection<? extends Comparable> input) {
         LinkedList collection = new LinkedList(input);
-        Collections.sort(collection);
+        Collections.sort(new LinkedList(input));
 
         return collection;
     }

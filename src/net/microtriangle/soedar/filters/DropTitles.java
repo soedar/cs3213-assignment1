@@ -17,7 +17,7 @@ public class DropTitles implements FilterModule {
     @Override
     public Object trigger(Object input) {
         if (input instanceof Collection) {
-            return filterTitles((Collection) input);
+            return filterTitles((Collection<String>) input);
         }
         throw new IllegalArgumentException();
     }

@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Set<String> ignoredWords;
         try {
             ignoredWords = getIgnoredWords("ignore.txt");
