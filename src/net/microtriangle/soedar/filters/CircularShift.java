@@ -18,7 +18,7 @@ public class CircularShift implements FilterModule {
         throw new IllegalArgumentException();
     }
 
-    private Collection<String> circularShiftTitles(Collection<String> titles) {
+    private ArrayList<String> circularShiftTitles(Collection<String> titles) {
         HashSet<String> output = new HashSet<String>();
 
         for (String title : titles) {
@@ -28,7 +28,7 @@ public class CircularShift implements FilterModule {
         return new ArrayList<String>(output);
     }
 
-    private Collection<String> circularShiftTitle(String title) {
+    private ArrayList<String> circularShiftTitle(String title) {
         ArrayList<String> output = new ArrayList<String>();
         LinkedList<String> words = new LinkedList<String>(Arrays.asList(title.split(" ")));
 

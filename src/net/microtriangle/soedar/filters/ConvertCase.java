@@ -46,7 +46,7 @@ public class ConvertCase implements FilterModule {
         return sb.toString();
     }
 
-    private Collection<String> convertCaseTitles(Collection<String> titles) {
+    private ArrayList<String> convertCaseTitles(Collection<String> titles) {
         ArrayList<String> newTitles = new ArrayList<String>();
         for (String title : titles) {
             newTitles.add(convertCaseTitle(title));

@@ -12,6 +12,16 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+        if (args.length > 0) {
+            if ("-h".equals(args[0]) || "--help".equals(args[0])) {
+                showHelpMessage();
+                return;
+            }
+            else {
+                System.err.println("Ignoring unknown arguments");
+            }
+        }
+
         Set<String> ignoredWords;
         try {
             ignoredWords = getIgnoredWords("ignore.txt");
@@ -35,6 +45,15 @@ public class Main {
         });
 
         eventManager.publish(KwicEvent.INPUT, getTitles());
+    }
+
+    public static void showHelpMessage() {
+        System.out.println("CS3213 Assignment 1 - KwicKwacKwoc");
+        System.out.println("Soedarsono A0078541B");
+        System.out.println("Usage: java -jar assignment1.jar");
+        System.out.println("This program will keep reading from STDIN until EOF or empty line");
+        System.out.println("");
+        System.out.println("To ignore keywords, create a ignore.txt file in the same directory with a newline separated keywords to ignore");
     }
 
     public static Set<String> getIgnoredWords(String file) throws IOException {

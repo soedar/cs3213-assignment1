@@ -22,7 +22,7 @@ public class DropTitles implements FilterModule {
         throw new IllegalArgumentException();
     }
 
-    private Collection<String> filterTitles(Collection<String> titles) {
+    private ArrayList<String> filterTitles(Collection<String> titles) {
         ArrayList<String> filteredTitles = new ArrayList<String>();
 
         for (String title : titles) {
