@@ -17,7 +17,7 @@ public class Sorter implements FilterModule {
 
     private Collection sort(Collection<? extends Comparable> input) {
         LinkedList collection = new LinkedList(input);
-        Collections.sort(new LinkedList(input));
+        Collections.sort(collection);
 
         return collection;
     }
